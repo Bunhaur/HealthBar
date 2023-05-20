@@ -6,6 +6,8 @@ using UnityEngine.UI;
 
 public class Player : MonoBehaviour
 {
+    [SerializeField] private Text _currentHealthText;
+
     private Slider _health;
 
     private float _maxHealth;
@@ -28,19 +30,24 @@ public class Player : MonoBehaviour
         _changeSpeed = 25f;
     }
 
+    private void Update()
+    {
+        _currentHealthText.text = $"{_currentHealth}/{_maxHealth}";
+    }
+
     public void TakeDamage()
     {
-        if (_currentHealth > _minHealth)
-            _currentHealth -= _damage;
-        else
+        if (_currentHealth - _damage < _minHealth)
             _currentHealth = _minHealth;
+        else 
+            _currentHealth -= _damage;
 
         StartCoroutine(HealthChanged());
     }
 
-    public void TakeHealing()
+    public void TakeHealth()
     {
-        if (_currentHealth > _maxHealth)
+        if (_currentHealth + _heal > _maxHealth)
             _currentHealth = _maxHealth;
         else
             _currentHealth += _heal;
