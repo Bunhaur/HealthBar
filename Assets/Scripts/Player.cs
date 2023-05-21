@@ -2,7 +2,6 @@ using UnityEngine;
 
 public class Player : MonoBehaviour
 {
-    [SerializeField] private HealthBar _healthBar;
     [SerializeField] private float _damage;
     [SerializeField] private float _heal;
 
@@ -21,17 +20,7 @@ public class Player : MonoBehaviour
         _currentHealth = _maxHealth;
     }
 
-    public void TakeDamage()
-    {
-        _currentHealth = Mathf.Clamp(_currentHealth - _damage, _minHealth, _maxHealth);
+    public void TakeDamage() => _currentHealth = Mathf.Clamp(_currentHealth - _damage, _minHealth, _maxHealth);
 
-        _healthBar.ChangeHealth(_currentHealth);
-    }
-
-    public void TakeHealth()
-    {
-        _currentHealth = Mathf.Clamp(_currentHealth + _heal, _minHealth, _maxHealth);
-
-        _healthBar.ChangeHealth(_currentHealth);
-    }
+    public void TakeHealth() => _currentHealth = Mathf.Clamp(_currentHealth + _heal, _minHealth, _maxHealth);
 }

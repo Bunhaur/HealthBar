@@ -10,24 +10,42 @@ public class HealthBar : MonoBehaviour
     [SerializeField] private Text _currentHealthText;
 
     private Slider _slider;
+    private Coroutine _changeHealthBarJob;
+
     private float _currentHealth;
+    private float _sliderChangeSpeed;
 
-    private void Start() => _slider = GetComponent<Slider>();
-
-    private void Update()
+    private void Start()
     {
+        _slider = GetComponent<Slider>();
         _currentHealth = _player.CurrentHealth;
-        _currentHealthText.text = $"{_currentHealth}/{_slider.maxValue}";
+        _sliderChangeSpeed = 35f;
+
+        ShowCurrentHealthToText();
     }
 
-    public void ChangeHealth(float value) => StartCoroutine(ChangeHealthBar(value));
-
-    private IEnumerator ChangeHealthBar(float value)
+    public void ChangeHealth()
     {
-        while (_slider.value != value)
+        _currentHealth = _player.CurrentHealth;
+
+        if (_changeHealthBarJob == null)
         {
-            _slider.value = Mathf.MoveTowards(_slider.value, _currentHealth, 25F * Time.deltaTime);
+            _changeHealthBarJob = StartCoroutine(ChangeHealthBar());
+        }
+    }
+
+    private void ShowCurrentHealthToText() => _currentHealthText.text = $"{_currentHealth}/{_slider.maxValue}";
+
+    private IEnumerator ChangeHealthBar()
+    {
+        while (_slider.value != _currentHealth)
+        {
+            ShowCurrentHealthToText();
+
+            _slider.value = Mathf.MoveTowards(_slider.value, _currentHealth, _sliderChangeSpeed * Time.deltaTime);
             yield return null;
         }
+
+        _changeHealthBarJob = null;
     }
 }
