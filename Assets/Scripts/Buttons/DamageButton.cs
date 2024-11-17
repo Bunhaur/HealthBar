@@ -1,19 +1,9 @@
 using UnityEngine;
 using UnityEngine.UI;
 
-[RequireComponent (typeof(Button))]
-public class DamageButton : MonoBehaviour
+[RequireComponent(typeof(Button))]
+public class DamageButton : ButtonOfHealth
 {
-    [SerializeField] private PlayerHealth _playerHealth;
-    [SerializeField] private float _damage;
-
-    private Button _button;
-
-    private void Awake()
-    {
-        _button = GetComponent<Button>();
-    }
-
     private void OnEnable()
     {
         _button.onClick.AddListener(HitPlayer);
@@ -26,6 +16,6 @@ public class DamageButton : MonoBehaviour
 
     private void HitPlayer()
     {
-        _playerHealth.ChangeValue(-_damage);
+        _playerHealth.ChangeValue(-_value);
     }
 }
