@@ -26,6 +26,6 @@ public class HealButton : MonoBehaviour
 
     private void HealPlayer()
     {
-        _playerHealth.Heal(_heal);
+        _playerHealth.ChangeValue(_heal);
     }
 }

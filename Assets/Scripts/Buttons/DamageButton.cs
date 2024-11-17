@@ -26,6 +26,6 @@ public class DamageButton : MonoBehaviour
 
     private void HitPlayer()
     {
-        _playerHealth.Hit(_damage);
+        _playerHealth.ChangeValue(-_damage);
     }
 }
